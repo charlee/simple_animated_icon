@@ -2,6 +2,8 @@
 
 An implementation of the "Simple" transitions for the [animated icons defined in Material Design](https://material.io/design/iconography/animated-icons.html#transitions).
 
+![example](simple_animated_icon_example.gif)
+
 ## Getting Started
 
 This package provided a `SimpleAnimatedIcon` widget that can be used to animate between any two material icons.
