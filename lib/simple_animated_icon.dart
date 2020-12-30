@@ -42,26 +42,14 @@ class SimpleAnimatedIcon extends StatelessWidget {
 
   /// The color to use when drawing the icon.
   ///
-  /// Defaults to the current [IconTheme] color, if any.
-  ///
-  /// The given color will be adjusted by the opacity of the current
-  /// [IconTheme], if any.
-  ///
-  /// In material apps, if there is a [Theme] without any [IconTheme]s
-  /// specified, icon colors default to white if the theme is dark
-  /// and black if the theme is light.
-  ///
-  /// If no [IconTheme] and no [Theme] is specified, icons will default to black.
-  ///
-  /// See [Theme] to set the current theme and [ThemeData.brightness]
-  /// for setting the current theme's brightness.
+  /// Defaults to the current icon theme color, if any.
   final Color color;
 
   /// The size of the icon in logical pixels.
   ///
   /// Icons occupy a square with width and height equal to size.
   ///
-  /// Defaults to the current [IconTheme] size.
+  /// Defaults to the current icon theme size.
   final double size;
 
   /// The icon to display. startIcon and endIcon can be any valid material icons.
@@ -72,18 +60,13 @@ class SimpleAnimatedIcon extends StatelessWidget {
   ///
   /// Announced in accessibility modes (e.g TalkBack/VoiceOver).
   /// This label does not show in the UI.
-  ///
-  /// See also:
-  ///
-  ///  * [SemanticsProperties.label], which is set to [semanticLabel] in the
-  ///    underlying [Semantics] widget.
   final String semanticLabel;
 
   /// The text direction to use for rendering the icon.
   ///
-  /// If this is null, the ambient [Directionality] is used instead.
+  /// If this is null, the ambient `Directionality` is used instead.
   ///
-  /// If the text direction is [TextDirection.rtl], the icon will be mirrored
+  /// If the text direction is `TextDirection.rtl`, the icon will be mirrored
   /// horizontally (e.g back arrow will point right).
   final TextDirection textDirection;
 
