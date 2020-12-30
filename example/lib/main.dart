@@ -1,7 +1,147 @@
 import 'package:flutter/material.dart';
+import 'package:simple_animated_icon/simple_animated_icon.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+/// Example for animated FAB.
+class AnimatedFab extends StatefulWidget {
+  @override
+  _AnimatedFabState createState() => _AnimatedFabState();
+}
+
+class _AnimatedFabState extends State<AnimatedFab>
+    with SingleTickerProviderStateMixin {
+  bool _isOpened = false;
+  AnimationController _animationController;
+  Animation<Color> _color;
+  Animation<double> _progress;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300))
+          ..addListener(() {
+            // call `build` on animation progress
+            setState(() {});
+          });
+
+    var curve = CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(0.0, 1.0, curve: Curves.easeOut),
+    );
+
+    _progress = Tween<double>(begin: 0.0, end: 1.0).animate(curve);
+    _color = ColorTween(begin: Colors.blue, end: Colors.red).animate(curve);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void animate() {
+    if (_isOpened) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+
+    setState(() {
+      _isOpened = !_isOpened;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: animate,
+      backgroundColor: _color.value,
+      child: SimpleAnimatedIcon(
+        // startIcon, endIcon, and progress are required
+        startIcon: Icons.add,
+        endIcon: Icons.close,
+        progress: _progress,
+        // use default transition
+        // transitions: [Transitions.rotate_cw],
+      ),
+    );
+  }
+}
+
+/// Example for animated icon button.
+class AnimatedIconButton extends StatefulWidget {
+  @override
+  _AnimatedIconButtonState createState() => _AnimatedIconButtonState();
+}
+
+class _AnimatedIconButtonState extends State<AnimatedIconButton>
+    with SingleTickerProviderStateMixin {
+  bool _isOpened = false;
+  AnimationController _animationController;
+  Animation<double> _progress;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300))
+          ..addListener(() {
+            // call `build` on animation progress
+            setState(() {});
+          });
+
+    _progress =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void animate() {
+    if (_isOpened) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+
+    setState(() {
+      _isOpened = !_isOpened;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: animate,
+        iconSize: 48.0,
+        icon: SimpleAnimatedIcon(
+          color: Colors.black,
+          // customize icon color
+          size: 48.0,
+          // customize icon size
+          startIcon: Icons.search,
+          endIcon: Icons.mail,
+          progress: _progress,
+
+          // Multiple transitions are applied from left to right.
+          // The order is important especially `slide_in_*` transitions are involved.
+          // In this example, if `slide_in_left` is applied before `zoom_in`,
+          // the slide in effect will be scaled by zoom_in as well, leading to unexpected effect.
+          transitions: [
+            Transitions.zoom_in,
+            Transitions.slide_in_left
+          ],
+        ));
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -9,109 +149,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Simple Animated Icon Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('Simple Animated Icon Demo'),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            AnimatedIconButton(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: AnimatedFab(),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
-enum SimpleAnimatedIconTransform {
+enum Transitions {
   rotate_cw,
   rotate_ccw,
   zoom_in,
@@ -21,9 +21,7 @@ class SimpleAnimatedIcon extends StatelessWidget {
     this.size,
     this.semanticLabel,
     this.textDirection,
-    this.simpleAnimatedIconTransforms = const [
-      SimpleAnimatedIconTransform.rotate_cw
-    ],
+    this.transitions = const [Transitions.rotate_cw],
   })  : assert(progress != null),
         assert(startIcon != null),
         assert(endIcon != null),
@@ -38,9 +36,9 @@ class SimpleAnimatedIcon extends StatelessWidget {
 
   /// The transformations when transitioning from `startIcon` to `endIcon`.
   ///
-  /// The value should be an iterable of `SimpleAnimatedIconTransform` values.
+  /// The value should be an iterable of `Transitions` values.
   /// Multiple transforms are combined from left to right.
-  final Iterable<SimpleAnimatedIconTransform> simpleAnimatedIconTransforms;
+  final Iterable<Transitions> transitions;
 
   /// The color to use when drawing the icon.
   ///
@@ -110,7 +108,7 @@ class SimpleAnimatedIcon extends StatelessWidget {
         size: iconSize,
         color: iconColor,
         progress: clampedProgress,
-        simpleAnimatedIconTransforms: simpleAnimatedIconTransforms,
+        transitions: transitions,
       ),
     );
   }
@@ -124,7 +122,7 @@ class _SimpleAnimatedIcon extends StatelessWidget {
     @required this.size,
     @required this.color,
     @required this.progress,
-    @required this.simpleAnimatedIconTransforms,
+    @required this.transitions,
   }) : super(key: key);
 
   final IconData startIcon;
@@ -132,7 +130,7 @@ class _SimpleAnimatedIcon extends StatelessWidget {
   final double size;
   final Color color;
   final double progress;
-  final Iterable<SimpleAnimatedIconTransform> simpleAnimatedIconTransforms;
+  final Iterable<Transitions> transitions;
 
   @override
   Widget build(BuildContext context) {
@@ -142,27 +140,27 @@ class _SimpleAnimatedIcon extends StatelessWidget {
     var t1 = [moveOrigin];
     var t2 = [moveOrigin];
 
-    simpleAnimatedIconTransforms.forEach((element) {
-      switch (element) {
-        case SimpleAnimatedIconTransform.rotate_cw:
+    transitions.forEach((transition) {
+      switch (transition) {
+        case Transitions.rotate_cw:
           t1.add(Matrix4.rotationZ(progress * math.pi));
           t2.add(Matrix4.rotationZ((progress - 1.0) * math.pi));
           break;
-        case SimpleAnimatedIconTransform.rotate_ccw:
+        case Transitions.rotate_ccw:
           t1.add(Matrix4.rotationZ(-progress * math.pi));
           t2.add(Matrix4.rotationZ((1.0 - progress) * math.pi));
           break;
-        case SimpleAnimatedIconTransform.zoom_in:
+        case Transitions.zoom_in:
           t1.add(
               Matrix4.identity().scaled(1.0 - progress, 1.0 - progress, 1.0));
           t2.add(Matrix4.identity().scaled(progress, progress, 1.0));
           break;
-        case SimpleAnimatedIconTransform.slide_in_left:
+        case Transitions.slide_in_left:
           t1.add(Matrix4.translationValues(2.0 * progress * size, 0.0, 0.0));
           t2.add(Matrix4.translationValues(
               2.0 * (progress - 1.0) * size, 0.0, 0.0));
           break;
-        case SimpleAnimatedIconTransform.slide_in_right:
+        case Transitions.slide_in_right:
           t1.add(Matrix4.translationValues(-2.0 * progress * size, 0.0, 0.0));
           t2.add(Matrix4.translationValues(
               -2.0 * (progress - 1.0) * size, 0.0, 0.0));
