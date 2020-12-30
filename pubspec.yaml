@@ -1,7 +1,6 @@
 name: simple_animated_icon
 description: An animated icon implemented the "Simple" icon animation defined in the Material Design.
 version: 1.0.0
-author: Charlee Li
 homepage: https://github.com/charlee/simple_animated_icon
 
 environment:
