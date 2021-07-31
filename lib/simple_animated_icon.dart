@@ -13,19 +13,16 @@ enum Transitions {
 
 class SimpleAnimatedIcon extends StatelessWidget {
   const SimpleAnimatedIcon({
-    Key key,
-    @required this.startIcon,
-    @required this.endIcon,
-    @required this.progress,
+    Key? key,
+    required this.startIcon,
+    required this.endIcon,
+    required this.progress,
     this.color,
     this.size,
     this.semanticLabel,
     this.textDirection,
     this.transitions = const [Transitions.rotate_cw],
-  })  : assert(progress != null),
-        assert(startIcon != null),
-        assert(endIcon != null),
-        super(key: key);
+  })  : super(key: key);
 
   /// The animation progress for the animated icon.
   ///
@@ -43,14 +40,14 @@ class SimpleAnimatedIcon extends StatelessWidget {
   /// The color to use when drawing the icon.
   ///
   /// Defaults to the current icon theme color, if any.
-  final Color color;
+  final Color? color;
 
   /// The size of the icon in logical pixels.
   ///
   /// Icons occupy a square with width and height equal to size.
   ///
   /// Defaults to the current icon theme size.
-  final double size;
+  final double? size;
 
   /// The icon to display. startIcon and endIcon can be any valid material icons.
   final IconData startIcon;
@@ -60,7 +57,7 @@ class SimpleAnimatedIcon extends StatelessWidget {
   ///
   /// Announced in accessibility modes (e.g TalkBack/VoiceOver).
   /// This label does not show in the UI.
-  final String semanticLabel;
+  final String? semanticLabel;
 
   /// The text direction to use for rendering the icon.
   ///
@@ -68,16 +65,16 @@ class SimpleAnimatedIcon extends StatelessWidget {
   ///
   /// If the text direction is `TextDirection.rtl`, the icon will be mirrored
   /// horizontally (e.g back arrow will point right).
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
 
   @override
   Widget build(BuildContext context) {
     final IconThemeData iconTheme = IconTheme.of(context);
-    final double iconSize = size ?? iconTheme.size;
+    final double iconSize = size ?? iconTheme.size ?? 10.0 ;
     final TextDirection textDirection =
         this.textDirection ?? Directionality.of(context);
-    final double iconOpacity = iconTheme.opacity;
-    Color iconColor = color ?? iconTheme.color;
+    final double iconOpacity = iconTheme.opacity ?? 0.5;
+    Color iconColor = color ?? iconTheme.color ?? Colors.white ;
     if (iconOpacity != 1.0)
       iconColor = iconColor.withOpacity(iconColor.opacity * iconOpacity);
 
@@ -99,13 +96,13 @@ class SimpleAnimatedIcon extends StatelessWidget {
 
 class _SimpleAnimatedIcon extends StatelessWidget {
   const _SimpleAnimatedIcon({
-    Key key,
-    @required this.startIcon,
-    @required this.endIcon,
-    @required this.size,
-    @required this.color,
-    @required this.progress,
-    @required this.transitions,
+    Key? key,
+    required this.startIcon,
+    required this.endIcon,
+    required this.size,
+    required this.color,
+    required this.progress,
+    required this.transitions,
   }) : super(key: key);
 
   final IconData startIcon;

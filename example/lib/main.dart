@@ -14,9 +14,9 @@ class AnimatedFab extends StatefulWidget {
 class _AnimatedFabState extends State<AnimatedFab>
     with SingleTickerProviderStateMixin {
   bool _isOpened = false;
-  AnimationController _animationController;
-  Animation<Color> _color;
-  Animation<double> _progress;
+  late AnimationController _animationController;
+  late Animation<Color?> _color ;
+  late Animation<double> _progress;
 
   @override
   void initState() {
@@ -82,8 +82,8 @@ class AnimatedIconButton extends StatefulWidget {
 class _AnimatedIconButtonState extends State<AnimatedIconButton>
     with SingleTickerProviderStateMixin {
   bool _isOpened = false;
-  AnimationController _animationController;
-  Animation<double> _progress;
+  late AnimationController _animationController;
+  late Animation<double> _progress;
 
   @override
   void initState() {
