@@ -13,7 +13,7 @@ To use `SimpleAnimatedIcon`, first add `simple_animated_icon` to the `pubspec.ya
 
 ```yaml
 dependencies:
-  simple_animated_icon: ^1.0.0
+  simple_animated_icon: ^1.1.0
 ```
 
 Then import the package in your app:
